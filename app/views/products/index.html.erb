@@ -1,8 +1,12 @@
 <p id="notice"><%= notice %></p>
 
+Your orders   <%= session[:order_name] %> : Rs.<%= session[:order_price] %>
+   <td><%= link_to raw('clear'), products_clear_orders_path(),  :method => :post %></td>
+
+
 <h1>Listing Products</h1>
 
-<table>
+ <table>
   <thead>
     <tr>
       <th>Name</th>
@@ -16,6 +20,7 @@
       <tr>
         <td><%= product.name %></td>
         <td><%= product.price %></td>
+        <td><%= link_to raw('Buy'), orders_product_path(product),  :method => :post %></td>
         <td><%= link_to 'Show', product %></td>
         <td><%= link_to 'Edit', edit_product_path(product) %></td>
         <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -1,10 +1,12 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :edit, :update, :destroy, :orders]
+  skip_before_filter :verify_authenticity_token  
 
   # GET /products
   # GET /products.json
   def index
     @products = Product.all
+    session[:id] = "1" 
   end
 
   # GET /products/1
@@ -59,6 +61,27 @@ class ProductsController < ApplicationController
       format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def clear_orders
+     session.clear
+   respond_to do |format|
+       format.html { redirect_to products_url, notice: 'cart is cleared' }
+      format.json { head :no_content }
+    end
+
+  end
+
+
+  def orders
+     session[:order_name] = @product.name 
+     session[:order_price] = @product.price
+     puts session[:order]
+ respond_to do |format|
+       format.html { redirect_to products_url, notice: 'Product was successfully added to cart.' }
+      format.json { head :no_content }
+    end
+
   end
 
   private
